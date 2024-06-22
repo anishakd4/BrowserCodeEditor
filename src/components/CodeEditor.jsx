@@ -2,8 +2,8 @@ import { Box, HStack } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
 import { useRef, useState } from "react";
 import LanguageSelector from "./LanguageSelector";
-import { CODE_SNIPPETS } from "../Constants";
 import Output from "./Output";
+import { CODE_SNIPPETS } from "../constants.js";
 
 const CodeEditor = () => {
   const [value, setValue] = useState("");
