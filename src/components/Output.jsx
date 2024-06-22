@@ -1,6 +1,6 @@
+import { useState } from "react";
 import { Box, Button, Text, useToast } from "@chakra-ui/react";
 import { executeCode } from "../api";
-import { useState } from "react";
 
 const Output = ({ editorRef, language }) => {
   const toast = useToast();
@@ -10,24 +10,19 @@ const Output = ({ editorRef, language }) => {
 
   const runCode = async () => {
     const sourceCode = editorRef.current.getValue();
-    console.log({ editorRef });
-    console.log({ sourceCode });
     if (!sourceCode) return;
     try {
       setIsLoading(true);
       const { run: result } = await executeCode(language, sourceCode);
-      console.log({ result });
       setOutput(result.output.split("\n"));
-      result.stderr ? setIsError(true) : setIsLoading(false);
-    } catch (err) {
-      console.log({ err });
+      result.stderr ? setIsError(true) : setIsError(false);
+    } catch (error) {
+      console.log(error);
       toast({
-        title: "An Error occurred",
-        description:
-          err.response.data.message || err.message || "Unable to run code",
+        title: "An error occurred.",
+        description: error.message || "Unable to run code",
         status: "error",
         duration: 6000,
-        isClosable: true,
       });
     } finally {
       setIsLoading(false);
@@ -43,10 +38,10 @@ const Output = ({ editorRef, language }) => {
         variant="outline"
         colorScheme="green"
         mb={4}
-        onClick={runCode}
         isLoading={isLoading}
+        onClick={runCode}
       >
-        Run code
+        Run Code
       </Button>
       <Box
         height="75vh"
@@ -58,10 +53,9 @@ const Output = ({ editorRef, language }) => {
       >
         {output
           ? output.map((line, i) => <Text key={i}>{line}</Text>)
-          : "Click 'Run code' to see the output here"}
+          : 'Click "Run Code" to see the output here'}
       </Box>
     </Box>
   );
 };
-
 export default Output;
